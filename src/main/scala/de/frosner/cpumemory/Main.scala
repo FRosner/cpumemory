@@ -18,15 +18,15 @@ object Main extends App {
     (rt.getCurrentThreadCpuTime - before) / 1000
   }
 
-  def measure(runs: Int, kbs: Seq[Int]): Seq[(Int, (Long, Long))] = {
-    def run(kb: Int): (Long, Long) = {
+  def measure(runs: Int, kbs: Seq[Int]) = {
+    def run(kb: Int) = {
       val size = kb * 1024 / 8
       val data = Seq.fill(size)(Random.nextLong()).toArray
       val indices = data.indices.toArray
       val randomIndices =
         Seq.fill(size)(Random.nextDouble()).zipWithIndex.sortBy(_._1).map(_._2)
 
-      def median(indices: Seq[Int]): Long = {
+      def median(indices: Seq[Int]) = {
         val results = for {
           i <- 1 to runs
         } yield
@@ -50,10 +50,11 @@ object Main extends App {
   }
 
   println("   kb" + " |" + f"     seq" + " |" + "     rdm")
-  measure(1000, Stream.iterate(1)(_ * 2).take(11)).foreach {
+//  measure(1000, Stream.iterate(1)(_ * 2).take(14)).foreach {
+  measure(10000, Stream.iterate(1)(_ + 2).take(33)).foreach {
     case (kb, (sequencialMs, randomMs)) =>
       println(
-        f"$kb% 5d" + " |" + f"$sequencialMs% 8d" + " |" + f"$randomMs% 8d")
+        f"$kb% 5d" + " |" + f"${sequencialMs / kb.toDouble}% 10f" + " |" + f"${randomMs / kb.toDouble}% 10f")
   }
 
 }
