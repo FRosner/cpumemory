@@ -11,6 +11,6 @@ resolvers ++= Seq(
   "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases"
 )
 
-// testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
+testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
 
-// parallelExecution in Benchmark := false
+logBuffered := false
